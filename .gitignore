@@ -18,4 +18,6 @@ clients/*/logs/*.json
 
 # Large binary/data files — committed intentionally for demo; exclude for new clients
 # clients/*/public/images/
-.env.local
+
+# Diff output (screenshots are large binaries)
+clients/*/diff-output/

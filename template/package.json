@@ -1,0 +1,33 @@
+{
+  "name": "vaeo-client-template",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "extract": "npx tsx scripts/extract.ts",
+    "sync": "npx tsx scripts/sync.ts",
+    "diff": "npx tsx scripts/diff.ts",
+    "snapshot": "npx tsx scripts/diff.ts --snapshot"
+  },
+  "dependencies": {
+    "next": "14.2.35",
+    "react": "^18",
+    "react-dom": "^18",
+    "sharp": "^0.33.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "typescript": "^5",
+    "tailwindcss": "^3",
+    "autoprefixer": "^10",
+    "postcss": "^8",
+    "tsx": "^4",
+    "puppeteer": "^22",
+    "pixelmatch": "^6",
+    "pngjs": "^7"
+  }
+}
