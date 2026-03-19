@@ -10,7 +10,7 @@ import {
 import HeroCarousel from '@/components/HeroCarousel';
 import ProductCard from '@/components/ProductCard';
 import NewsletterForm from '@/components/NewsletterForm';
-import TrustBadges from '@/apps/TrustBadges';
+
 
 export const metadata: Metadata = {
   title: 'Luxury Pool Floats & Inflatable Loungers',
@@ -79,9 +79,6 @@ export default function HomePage() {
 
       {/* ── 1. Hero Carousel ──────────────────────────────────────────────── */}
       <HeroCarousel />
-
-      {/* ── Trust Badges ───────────────────────────────────────────────── */}
-      <TrustBadges />
 
       {/* ── 2. Shop info icon strip ──────────────────────────────────────── */}
       <section className="py-12 px-4 border-b border-gray-100" aria-label="Why Cococabana">
