@@ -23,6 +23,7 @@ import { join, extname } from 'node:path';
 import { execSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import puppeteer from 'puppeteer';
+import { detectApps, type AppDetectionResult } from './browser.ts';
 
 // ── Config ────────────────────────────────────────────────────────────────────
 
@@ -32,14 +33,48 @@ const CLIENT_NAME  = process.env.CLIENT_NAME  ?? 'client';
 const OUTPUT_DIR   = process.env.OUTPUT_DIR   ?? join(process.cwd(), 'output');
 const CONTENT_JSON = join(process.cwd(), 'data', 'content.json');
 
+// ── VAEO Platform integration ────────────────────────────────────────────────
+
+const VAEO_API_URL = process.env.VAEO_API_URL ?? 'https://app.velocityaeo.com';
+const VAEO_API_KEY = process.env.VAEO_API_KEY ?? '';
+const VAEO_JOB_ID  = process.env.VAEO_JOB_ID  ?? '';
+
+const vaeoEnabled = !!(VAEO_API_KEY && VAEO_JOB_ID);
+
+async function reportLog(entry: LogEntry) {
+  if (!vaeoEnabled) return;
+  await fetch(`${VAEO_API_URL}/api/rebuild/log`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-vaeo-api-key': VAEO_API_KEY },
+    body: JSON.stringify({ jobId: VAEO_JOB_ID, entry }),
+  }).catch(() => {}); // non-fatal
+}
+
+async function reportScreenshot(screenshotBuffer: Buffer, pageType: string) {
+  if (!vaeoEnabled) return;
+  const base64 = screenshotBuffer.toString('base64');
+  await fetch(`${VAEO_API_URL}/api/rebuild/upload-screenshot`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-vaeo-api-key': VAEO_API_KEY },
+    body: JSON.stringify({
+      jobId: VAEO_JOB_ID,
+      screenshotBase64: base64,
+      filename: `${pageType}.png`,
+      pageType,
+    }),
+  }).catch(() => {}); // non-fatal
+}
+
 // ── Build log ─────────────────────────────────────────────────────────────────
 
 interface LogEntry { phase: number; step: string; message: string; timestamp: string; }
 const buildLog: LogEntry[] = [];
 
 function log(phase: number, step: string, message: string) {
-  buildLog.push({ phase, step, message, timestamp: new Date().toISOString() });
+  const entry: LogEntry = { phase, step, message, timestamp: new Date().toISOString() };
+  buildLog.push(entry);
   console.log(`[PHASE ${phase}] ${message}`);
+  void reportLog(entry);
 }
 
 // ── Utilities ─────────────────────────────────────────────────────────────────
@@ -244,8 +279,11 @@ async function analyzeLiveSite(): Promise<LiveAnalysis> {
     log(2, 'screenshot_home', `Screenshotting homepage at 1280px…`);
     await page.goto(INPUT_URL, { waitUntil: 'networkidle2', timeout: 30000 });
     const homePath = join(screenshotDir, 'homepage.png');
-    await page.screenshot({ path: homePath, fullPage: false } as any);
+    const homeRaw = await page.screenshot({ fullPage: false, type: 'png' });
+    const homeBuf = Buffer.from(homeRaw);
+    await writeFile(homePath, homeBuf);
     screenshots.push('screenshots/homepage.png');
+    await reportScreenshot(homeBuf, 'homepage');
     log(2, 'screenshot_home_done', `Homepage screenshot saved ✓`);
 
     // ── DOM measurements — simple one-liner evaluates (avoids esbuild __name) ─
@@ -353,8 +391,11 @@ async function analyzeLiveSite(): Promise<LiveAnalysis> {
     if (productUrl) {
       log(2, 'screenshot_product', `Screenshotting product page…`);
       await page.goto(productUrl, { waitUntil: 'networkidle2', timeout: 30000 });
-      await page.screenshot({ path: join(screenshotDir, 'product.png'), fullPage: false } as any);
+      const prodRaw = await page.screenshot({ fullPage: false, type: 'png' });
+      const prodBuf = Buffer.from(prodRaw);
+      await writeFile(join(screenshotDir, 'product.png'), prodBuf);
       screenshots.push('screenshots/product.png');
+      await reportScreenshot(prodBuf, 'product');
       log(2, 'screenshot_product_done', `Product screenshot saved ✓`);
     }
 
@@ -452,6 +493,25 @@ async function main() {
   await writeFile(join(OUTPUT_DIR, 'layout-spec.json'), JSON.stringify(layout, null, 2), 'utf-8');
   log(2, 'layout_spec_written', `layout-spec.json written ✓`);
 
+  // ── Phase 2b: App detection ───────────────────────────────────────────────
+  console.log('\n── PHASE 2b: App detection ────────────────────────────────────────');
+  let appsResult: AppDetectionResult | null = null;
+  if (INPUT_URL) {
+    appsResult = await detectApps(INPUT_URL);
+    if (appsResult?.appsDetected.length) {
+      log(2, 'apps_detected',
+        `Apps: ${appsResult.appsDetected.map(a => a.name).join(', ')} ✓`);
+      log(2, 'speed_impact',
+        `Estimated speed impact: ${appsResult.estimatedSpeedImpact} → PageSpeed ~${appsResult.estimatedPageSpeedScore} ✓`);
+    } else {
+      log(2, 'apps_none', 'No known third-party apps detected ✓');
+    }
+    if (appsResult?.replaceableWithVAEO.length) {
+      log(2, 'vaeo_replaceable',
+        `VAEO can replace: ${appsResult.replaceableWithVAEO.map(r => r.appName).join(', ')} ✓`);
+    }
+  }
+
   // ── Phase 3 ───────────────────────────────────────────────────────────────
   console.log('\n── PHASE 3: Content inventory ─────────────────────────────────────');
   const contentSpec = await buildContentSpec();
@@ -504,6 +564,9 @@ async function main() {
     },
     sections:    themeSpec.sections,
     screenshots,
+    appsDetected:      appsResult?.appsDetected      ?? [],
+    replaceableWithVAEO: appsResult?.replaceableWithVAEO ?? [],
+    estimatedSpeedGain: appsResult ? Math.abs(appsResult.estimatedSpeedImpact) : 0,
     buildLog,
   };
 

@@ -12,7 +12,8 @@
     "sync:dry": "npx tsx scripts/sync.ts --dry-run",
     "diff": "npx tsx scripts/diff.ts",
     "diff:report": "npx tsx scripts/diff.ts --report-only",
-    "differentiate": "npx tsx scripts/differentiate.ts"
+    "differentiate": "npx tsx scripts/differentiate.ts",
+    "browser:detect": "npx tsx scripts/browser.ts"
   },
   "dependencies": {
     "next": "14.2.35",

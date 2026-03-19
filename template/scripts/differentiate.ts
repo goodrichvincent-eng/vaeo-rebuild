@@ -23,6 +23,7 @@ import { join, extname } from 'node:path';
 import { execSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import puppeteer from 'puppeteer';
+import { detectApps, type AppDetectionResult } from './browser.ts';
 
 // ── Config ────────────────────────────────────────────────────────────────────
 
@@ -452,6 +453,25 @@ async function main() {
   await writeFile(join(OUTPUT_DIR, 'layout-spec.json'), JSON.stringify(layout, null, 2), 'utf-8');
   log(2, 'layout_spec_written', `layout-spec.json written ✓`);
 
+  // ── Phase 2b: App detection ───────────────────────────────────────────────
+  console.log('\n── PHASE 2b: App detection ────────────────────────────────────────');
+  let appsResult: AppDetectionResult | null = null;
+  if (INPUT_URL) {
+    appsResult = await detectApps(INPUT_URL);
+    if (appsResult?.appsDetected.length) {
+      log(2, 'apps_detected',
+        `Apps: ${appsResult.appsDetected.map(a => a.name).join(', ')} ✓`);
+      log(2, 'speed_impact',
+        `Estimated speed impact: ${appsResult.estimatedSpeedImpact} → PageSpeed ~${appsResult.estimatedPageSpeedScore} ✓`);
+    } else {
+      log(2, 'apps_none', 'No known third-party apps detected ✓');
+    }
+    if (appsResult?.replaceableWithVAEO.length) {
+      log(2, 'vaeo_replaceable',
+        `VAEO can replace: ${appsResult.replaceableWithVAEO.map(r => r.appName).join(', ')} ✓`);
+    }
+  }
+
   // ── Phase 3 ───────────────────────────────────────────────────────────────
   console.log('\n── PHASE 3: Content inventory ─────────────────────────────────────');
   const contentSpec = await buildContentSpec();
@@ -504,6 +524,9 @@ async function main() {
     },
     sections:    themeSpec.sections,
     screenshots,
+    appsDetected:      appsResult?.appsDetected      ?? [],
+    replaceableWithVAEO: appsResult?.replaceableWithVAEO ?? [],
+    estimatedSpeedGain: appsResult ? Math.abs(appsResult.estimatedSpeedImpact) : 0,
     buildLog,
   };
 
