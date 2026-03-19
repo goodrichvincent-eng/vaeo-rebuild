@@ -562,6 +562,39 @@ async function main() {
   await writeFile(logFile, JSON.stringify(logEntry, null, 2), 'utf-8');
   console.log(`\n📝 Log: ${logFile}`);
 
+  // ── Report to VAEO platform ───────────────────────────────────────────────
+
+  const VAEO_API_URL = process.env.VAEO_API_URL ?? 'https://app.velocityaeo.com';
+  const VAEO_API_KEY = process.env.VAEO_API_KEY ?? '';
+  const VAEO_SITE_ID = process.env.VAEO_SITE_ID ?? '';
+
+  if (VAEO_API_KEY && VAEO_SITE_ID) {
+    try {
+      await fetch(`${VAEO_API_URL}/api/sandbox/report`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-vaeo-api-key': VAEO_API_KEY,
+        },
+        body: JSON.stringify({
+          siteId: VAEO_SITE_ID,
+          timestamp: logEntry.timestamp,
+          syncSummary: {
+            productsUpdated: logEntry.productsUpdated,
+            imagesAdded: logEntry.imagesAdded,
+            buildSuccess: logEntry.buildSuccess,
+            deployUrl: logEntry.deployUrl,
+          },
+          diffResults: logEntry.diffResults ?? null,
+        }),
+      });
+      console.log('  ✓ Results reported to VAEO platform');
+    } catch (err) {
+      console.warn('  ⚠ Could not report to VAEO platform:', err);
+      // Non-fatal — sync still succeeded
+    }
+  }
+
   const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
   console.log(`\n✅ Sync complete in ${elapsed}s`);
   if (deployUrl) console.log(`   Live: ${deployUrl}`);
