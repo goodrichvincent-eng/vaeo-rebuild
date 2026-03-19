@@ -1,0 +1,17 @@
+{
+  "productCount": 22,
+  "collectionCount": 4,
+  "pageCount": 6,
+  "hasReviews": true,
+  "imageCount": 124,
+  "navigationMain": 4,
+  "navigationFooter": 0,
+  "shop": {
+    "name": "Cococabana",
+    "domain": "cococabanalife.com",
+    "myshopifyDomain": "hautedoorliving.myshopify.com",
+    "currency": "USD",
+    "description": "",
+    "email": "Adamk@Greatimportance.com"
+  }
+}

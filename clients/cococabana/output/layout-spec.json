@@ -1,0 +1,19 @@
+{
+  "header": {
+    "height": 162,
+    "sticky": true,
+    "topBarExists": false
+  },
+  "hero": {
+    "height": 900,
+    "hasText": false,
+    "hasButton": false
+  },
+  "productGrid": {
+    "columnsDesktop": 2,
+    "columnsMobile": 2
+  },
+  "footer": {
+    "columns": 2
+  }
+}

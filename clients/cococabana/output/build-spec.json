@@ -1,0 +1,177 @@
+{
+  "client": "cococabana",
+  "generatedAt": "2026-03-19T23:43:15.747Z",
+  "durationMs": 4004,
+  "site": {
+    "url": "https://coco-demo-silk.vercel.app",
+    "platform": "shopify"
+  },
+  "design": {
+    "colors": {
+      "primary": "",
+      "secondary": "",
+      "background": "#ffffff",
+      "text": "#000000",
+      "accent": ""
+    },
+    "fonts": {
+      "heading": "Marcellus",
+      "body": "Lato",
+      "headingWeight": "400",
+      "bodyWeight": "400"
+    },
+    "layout": {
+      "header": {
+        "height": 162,
+        "sticky": true,
+        "topBarExists": false
+      },
+      "hero": {
+        "height": 900,
+        "hasText": false,
+        "hasButton": false
+      },
+      "productGrid": {
+        "columnsDesktop": 2,
+        "columnsMobile": 2
+      },
+      "footer": {
+        "columns": 2
+      }
+    }
+  },
+  "content": {
+    "productCount": 22,
+    "collectionCount": 4,
+    "pageCount": 6,
+    "hasReviews": true,
+    "imageCount": 124,
+    "navigation": {
+      "mainItems": 4,
+      "footerItems": 0
+    },
+    "shop": {
+      "name": "Cococabana",
+      "domain": "cococabanalife.com",
+      "myshopifyDomain": "hautedoorliving.myshopify.com",
+      "currency": "USD",
+      "description": "",
+      "email": "Adamk@Greatimportance.com"
+    }
+  },
+  "sections": [],
+  "screenshots": [
+    "screenshots/homepage.png",
+    "screenshots/product.png"
+  ],
+  "buildLog": [
+    {
+      "phase": 1,
+      "step": "zip_skip",
+      "message": "No ZIP provided — skipping theme extraction",
+      "timestamp": "2026-03-19T23:43:11.746Z"
+    },
+    {
+      "phase": 1,
+      "step": "theme_spec_written",
+      "message": "theme-spec.json written ✓",
+      "timestamp": "2026-03-19T23:43:11.748Z"
+    },
+    {
+      "phase": 2,
+      "step": "browser_launch",
+      "message": "Launching Puppeteer for https://coco-demo-silk.vercel.app…",
+      "timestamp": "2026-03-19T23:43:11.748Z"
+    },
+    {
+      "phase": 2,
+      "step": "screenshot_home",
+      "message": "Screenshotting homepage at 1280px…",
+      "timestamp": "2026-03-19T23:43:12.887Z"
+    },
+    {
+      "phase": 2,
+      "step": "screenshot_home_done",
+      "message": "Homepage screenshot saved ✓",
+      "timestamp": "2026-03-19T23:43:14.024Z"
+    },
+    {
+      "phase": 2,
+      "step": "header_analyzed",
+      "message": "Header height: 162px, sticky: true, topBar: false ✓",
+      "timestamp": "2026-03-19T23:43:14.044Z"
+    },
+    {
+      "phase": 2,
+      "step": "hero_analyzed",
+      "message": "Hero height: 900px, hasText: false, hasButton: false ✓",
+      "timestamp": "2026-03-19T23:43:14.044Z"
+    },
+    {
+      "phase": 2,
+      "step": "grid_analyzed",
+      "message": "Product grid: 2 cols desktop, 2 cols mobile ✓",
+      "timestamp": "2026-03-19T23:43:14.044Z"
+    },
+    {
+      "phase": 2,
+      "step": "footer_analyzed",
+      "message": "Footer: 2 columns ✓",
+      "timestamp": "2026-03-19T23:43:14.044Z"
+    },
+    {
+      "phase": 2,
+      "step": "fonts_extracted",
+      "message": "Fonts: heading=\"Marcellus\", body=\"Lato\" ✓",
+      "timestamp": "2026-03-19T23:43:14.044Z"
+    },
+    {
+      "phase": 2,
+      "step": "screenshot_product",
+      "message": "Screenshotting product page…",
+      "timestamp": "2026-03-19T23:43:14.045Z"
+    },
+    {
+      "phase": 2,
+      "step": "screenshot_product_done",
+      "message": "Product screenshot saved ✓",
+      "timestamp": "2026-03-19T23:43:15.662Z"
+    },
+    {
+      "phase": 2,
+      "step": "layout_spec_written",
+      "message": "layout-spec.json written ✓",
+      "timestamp": "2026-03-19T23:43:15.745Z"
+    },
+    {
+      "phase": 3,
+      "step": "content_inventoried",
+      "message": "Content: 22 products, 4 collections, 6 pages ✓",
+      "timestamp": "2026-03-19T23:43:15.747Z"
+    },
+    {
+      "phase": 3,
+      "step": "images_counted",
+      "message": "Images: 124 in manifest ✓",
+      "timestamp": "2026-03-19T23:43:15.747Z"
+    },
+    {
+      "phase": 3,
+      "step": "navigation_found",
+      "message": "Navigation: main=4 items, footer=0 items ✓",
+      "timestamp": "2026-03-19T23:43:15.747Z"
+    },
+    {
+      "phase": 3,
+      "step": "reviews_checked",
+      "message": "Reviews: yes ✓",
+      "timestamp": "2026-03-19T23:43:15.747Z"
+    },
+    {
+      "phase": 3,
+      "step": "content_spec_written",
+      "message": "content-spec.json written ✓",
+      "timestamp": "2026-03-19T23:43:15.747Z"
+    }
+  ]
+}

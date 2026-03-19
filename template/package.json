@@ -10,7 +10,8 @@
     "extract": "npx tsx scripts/extract.ts",
     "sync": "npx tsx scripts/sync.ts",
     "diff": "npx tsx scripts/diff.ts",
-    "snapshot": "npx tsx scripts/diff.ts --snapshot"
+    "snapshot": "npx tsx scripts/diff.ts --snapshot",
+    "differentiate": "npx tsx scripts/differentiate.ts"
   },
   "dependencies": {
     "next": "14.2.35",
