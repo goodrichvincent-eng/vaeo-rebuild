@@ -1,0 +1,89 @@
+{
+  "timestamp": "2026-03-19T22:55:04.998Z",
+  "liveUrl": "https://cococabanalife.com",
+  "demoUrl": "https://coco-demo-silk.vercel.app",
+  "pages": [
+    {
+      "path": "/",
+      "name": "Homepage",
+      "desktop": {
+        "matchPercent": 32.8,
+        "screenshotLive": "homepage-desktop-live.png",
+        "screenshotDemo": "homepage-desktop-demo.png",
+        "screenshotDiff": "homepage-desktop-diff.png"
+      },
+      "mobile": {
+        "matchPercent": 34.4,
+        "screenshotLive": "homepage-mobile-live.png",
+        "screenshotDemo": "homepage-mobile-demo.png",
+        "screenshotDiff": "homepage-mobile-diff.png"
+      }
+    },
+    {
+      "path": "/pages/about-us",
+      "name": "About Us",
+      "desktop": {
+        "matchPercent": 45.2,
+        "screenshotLive": "pages_about-us-desktop-live.png",
+        "screenshotDemo": "pages_about-us-desktop-demo.png",
+        "screenshotDiff": "pages_about-us-desktop-diff.png"
+      },
+      "mobile": {
+        "matchPercent": 44.8,
+        "screenshotLive": "pages_about-us-mobile-live.png",
+        "screenshotDemo": "pages_about-us-mobile-demo.png",
+        "screenshotDiff": "pages_about-us-mobile-diff.png"
+      }
+    },
+    {
+      "path": "/pages/contact",
+      "name": "Contact",
+      "desktop": {
+        "matchPercent": 48.4,
+        "screenshotLive": "pages_contact-desktop-live.png",
+        "screenshotDemo": "pages_contact-desktop-demo.png",
+        "screenshotDiff": "pages_contact-desktop-diff.png"
+      },
+      "mobile": {
+        "matchPercent": 61.1,
+        "screenshotLive": "pages_contact-mobile-live.png",
+        "screenshotDemo": "pages_contact-mobile-demo.png",
+        "screenshotDiff": "pages_contact-mobile-diff.png"
+      }
+    },
+    {
+      "path": "/collections",
+      "name": "Collections",
+      "desktop": {
+        "matchPercent": 27.8,
+        "screenshotLive": "collections-desktop-live.png",
+        "screenshotDemo": "collections-desktop-demo.png",
+        "screenshotDiff": "collections-desktop-diff.png"
+      },
+      "mobile": {
+        "matchPercent": 29.2,
+        "screenshotLive": "collections-mobile-live.png",
+        "screenshotDemo": "collections-mobile-demo.png",
+        "screenshotDiff": "collections-mobile-diff.png"
+      }
+    },
+    {
+      "path": "/products/cococabana-foam-pool-float-74-inch",
+      "name": "Product — Pool Float",
+      "desktop": {
+        "matchPercent": 62.9,
+        "screenshotLive": "products_cococabana-foam-pool-float-74-inch-desktop-live.png",
+        "screenshotDemo": "products_cococabana-foam-pool-float-74-inch-desktop-demo.png",
+        "screenshotDiff": "products_cococabana-foam-pool-float-74-inch-desktop-diff.png"
+      },
+      "mobile": {
+        "matchPercent": 68,
+        "screenshotLive": "products_cococabana-foam-pool-float-74-inch-mobile-live.png",
+        "screenshotDemo": "products_cococabana-foam-pool-float-74-inch-mobile-demo.png",
+        "screenshotDiff": "products_cococabana-foam-pool-float-74-inch-mobile-diff.png"
+      }
+    }
+  ],
+  "overallMatch": 45.5,
+  "status": "FAIL"
+}

@@ -1,0 +1,21 @@
+# Node
+node_modules/
+.next/
+*.log
+
+# Env files (never commit credentials)
+.env.local
+.env*.local
+
+# Vercel
+.vercel/
+
+# OS
+.DS_Store
+
+# Logs (keep structure, ignore content)
+clients/*/logs/*.json
+
+# Large binary/data files — committed intentionally for demo; exclude for new clients
+# clients/*/public/images/
+.env.local

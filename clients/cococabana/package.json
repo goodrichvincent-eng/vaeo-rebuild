@@ -1,0 +1,35 @@
+{
+  "name": "coco-demo",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "extract": "npx tsx scripts/extract.ts",
+    "sync": "npx tsx scripts/sync.ts",
+    "sync:dry": "npx tsx scripts/sync.ts --dry-run",
+    "diff": "npx tsx scripts/diff.ts",
+    "diff:report": "npx tsx scripts/diff.ts --report-only"
+  },
+  "dependencies": {
+    "next": "14.2.35",
+    "pixelmatch": "^7.1.0",
+    "pngjs": "^7.0.0",
+    "puppeteer": "^24.40.0",
+    "react": "^18",
+    "react-dom": "^18",
+    "sharp": "^0.33.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.7",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.4.27",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  }
+}
