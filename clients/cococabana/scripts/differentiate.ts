@@ -408,8 +408,11 @@ async function analyzeLiveSite(): Promise<LiveAnalysis> {
     if (collectionUrl) {
       log(2, 'screenshot_collection', `Screenshotting collection page…`);
       await page.goto(collectionUrl, { waitUntil: 'networkidle2', timeout: 30000 });
-      await page.screenshot({ path: join(screenshotDir, 'collection.png'), fullPage: false } as any);
+      const collRaw = await page.screenshot({ fullPage: false, type: 'png' });
+      const collBuf = Buffer.from(collRaw);
+      await writeFile(join(screenshotDir, 'collection.png'), collBuf);
       screenshots.push('screenshots/collection.png');
+      await reportScreenshot(collBuf, 'collection');
       log(2, 'screenshot_collection_done', `Collection screenshot saved ✓`);
     }
 
@@ -477,7 +480,8 @@ async function main() {
   console.log(`   Client:  ${CLIENT_NAME}`);
   console.log(`   URL:     ${INPUT_URL || '(none)'}`);
   console.log(`   ZIP:     ${INPUT_ZIP || '(none)'}`);
-  console.log(`   Output:  ${OUTPUT_DIR}\n`);
+  console.log(`   Output:  ${OUTPUT_DIR}`);
+  console.log(`   VAEO:    ${vaeoEnabled ? `reporting to ${VAEO_API_URL} (job ${VAEO_JOB_ID})` : 'local only'}\n`);
 
   await mkdir(OUTPUT_DIR, { recursive: true });
 
@@ -590,9 +594,19 @@ async function main() {
   console.log(`   Screenshots: ${screenshots.length}`);
   console.log(`   Output:      ${OUTPUT_DIR}`);
   console.log('══════════════════════════════════════════════════════════════════\n');
+
+  // Report completion to VAEO platform
+  if (vaeoEnabled) {
+    await reportLog({ phase: 0, step: 'complete', message: `Rebuild complete in ${elapsed}s`, timestamp: new Date().toISOString() });
+    console.log(`   VAEO: reported completion to ${VAEO_API_URL}`);
+  }
 }
 
-main().catch(err => {
+main().catch(async (err) => {
   console.error('\n❌ Differentiator failed:', err);
+  if (vaeoEnabled) {
+    const msg = err instanceof Error ? err.message : String(err);
+    await reportLog({ phase: 0, step: 'failed', message: `Build failed: ${msg}`, timestamp: new Date().toISOString() });
+  }
   process.exit(1);
 });
